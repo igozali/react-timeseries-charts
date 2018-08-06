@@ -125,6 +125,7 @@ export default class YAxis extends React.Component {
             chartExtent,
             absolute,
             fmt,
+            label,
             type,
             showGrid,
             hideAxisLine
@@ -152,7 +153,8 @@ export default class YAxis extends React.Component {
             this.props.absolute !== absolute ||
             this.props.chartExtent !== chartExtent ||
             this.props.showGrid !== showGrid ||
-            this.props.hideAxisLine !== hideAxisLine
+            this.props.hideAxisLine !== hideAxisLine ||
+            this.props.label !== label
         ) {
             this.renderAxis(
                 align,
