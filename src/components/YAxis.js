@@ -112,7 +112,8 @@ export default class YAxis extends React.Component {
             this.props.hideAxisLine,
             this.props.absolute,
             this.props.type,
-            this.props.format
+            this.props.format,
+            this.props.label
         );
     }
 
@@ -124,7 +125,7 @@ export default class YAxis extends React.Component {
             height,
             chartExtent,
             absolute,
-            fmt,
+            format,
             label,
             type,
             showGrid,
@@ -142,10 +143,10 @@ export default class YAxis extends React.Component {
                 hideAxisLine,
                 absolute,
                 type,
-                fmt
+                format
             );
         } else if (
-            this.props.fmt !== fmt ||
+            this.props.format !== format ||
             this.props.align !== align ||
             this.props.width !== width ||
             this.props.height !== height ||
@@ -166,7 +167,8 @@ export default class YAxis extends React.Component {
                 hideAxisLine,
                 absolute,
                 type,
-                fmt
+                format,
+                label
             );
         }
     }
@@ -300,9 +302,10 @@ export default class YAxis extends React.Component {
         hideAxisLine,
         absolute,
         type,
-        fmt
+        format,
+        label
     ) {
-        const yformat = this.yformat(fmt);
+        const yformat = this.yformat(format);
         const axis = align === "left" ? axisLeft : axisRight;
         const style = this.mergeStyles(this.props.style);
         const { labelStyle, valueStyle } = style;
@@ -327,7 +330,7 @@ export default class YAxis extends React.Component {
             .styles(valueStyle)
             .call(axisGenerator.tickSize(tickSize))
             .append("text")
-            .text(this.props.label)
+            .text(label)
             .styles(labelStyle)
             .attr("transform", "rotate(-90)")
             .attr("y", labelOffset)
@@ -347,9 +350,9 @@ export default class YAxis extends React.Component {
         hideAxisLine,
         absolute,
         type,
-        fmt
+        format
     ) {
-        const yformat = this.yformat(fmt);
+        const yformat = this.yformat(format);
         const axis = align === "left" ? axisLeft : axisRight;
         const style = this.mergeStyles(this.props.style);
         const tickSize = showGrid && this.props.isInnerAxis ? -chartExtent : 5;
