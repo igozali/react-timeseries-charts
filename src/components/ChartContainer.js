@@ -351,7 +351,8 @@ export default class ChartContainer extends React.Component {
                     trackerTimeFormat: this.props.format,
                     trackerStyle: trackerStyle,
                     onTimeRangeChanged: this.handleTimeRangeChanged,
-                    onTrackerChanged: this.handleTrackerChanged
+                    onTrackerChanged: this.handleTrackerChanged,
+                    utc: this.props.utc
                 };
 
                 let { titleHeight = 28 } = child.props;
