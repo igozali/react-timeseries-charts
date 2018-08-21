@@ -286,6 +286,7 @@ export default class ChartContainer extends React.Component {
                     trackerShowTime: firstRow,
                     trackerTime: this.props.trackerPosition,
                     trackerTimeFormat: this.props.format,
+                    utc: this.props.utc,
                     onTimeRangeChanged: tr => this.handleTimeRangeChanged(tr),
                     onTrackerChanged: t => this.handleTrackerChanged(t)
                 };

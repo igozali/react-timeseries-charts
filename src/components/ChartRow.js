@@ -13,6 +13,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { easeSinOut } from "d3-ease";
 import { scaleLinear, scaleLog, scalePow } from "d3-scale";
+import { utcFormat } from "d3-time-format";
 import { areComponentsEqual } from "react-hot-loader";
 
 import Brush from "./Brush";
@@ -440,6 +441,12 @@ export default class ChartRow extends React.Component {
                 timeMarkerProps.infoValues = this.props.trackerInfoValues;
                 timeMarkerProps.timeFormat = this.props.trackerTimeFormat;
             }
+
+            if (this.props.utc) {
+                // TODO: Might need to handle the case where timeFormat is a function.
+                timeMarkerProps.timeFormat = utcFormat(timeMarkerProps.timeFormat);
+            }
+
             const trackerStyle = {
                 pointerEvents: "none"
             };
@@ -517,6 +524,7 @@ ChartRow.propTypes = {
     width: PropTypes.number,
     timeScale: PropTypes.func,
     trackerTimeFormat: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
+    utc: PropTypes.bool,
     timeFormat: PropTypes.oneOfType([PropTypes.string, PropTypes.func]),
     trackerTime: PropTypes.instanceOf(Date)
 };
