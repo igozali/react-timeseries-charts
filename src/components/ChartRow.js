@@ -331,9 +331,12 @@ export default class ChartRow extends React.Component {
                             key: keyCount,
                             width: chartWidth,
                             height: innerHeight,
-                            timeScale: this.props.timeScale,
-                            timeFormat: this.props.timeFormat
+                            timeScale: this.props.timeScale
                         };
+
+                        if (this.props.timeFormat) {
+                            chartProps.timeFormat = this.props.timeFormat;
+                        }
 
                         if (scale) {
                             chartProps.yScale = scale;
