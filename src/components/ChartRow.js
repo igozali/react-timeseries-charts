@@ -334,7 +334,9 @@ export default class ChartRow extends React.Component {
                             timeScale: this.props.timeScale
                         };
 
-                        if (this.props.timeFormat) {
+                        // Only overwrite timeFormat if the children does not have timeFormat
+                        // defined.
+                        if (chart.props.timeFormat == null && this.props.timeFormat) {
                             chartProps.timeFormat = this.props.timeFormat;
                         }
 
@@ -434,7 +436,6 @@ export default class ChartRow extends React.Component {
         if (this.props.trackerTime) {
             const timeFormat = this.props.trackerTimeFormat || this.props.timeFormat;
             const timeMarkerProps = {
-                timeFormat,
                 showLine: false,
                 showTime: this.props.trackerShowTime,
                 time: this.props.trackerTime,
@@ -442,11 +443,14 @@ export default class ChartRow extends React.Component {
                 width: chartWidth,
                 infoStyle: this.props.trackerStyle
             };
+
             if (this.props.trackerInfoValues) {
                 timeMarkerProps.infoWidth = this.props.trackerInfoWidth;
                 timeMarkerProps.infoHeight = this.props.trackerInfoHeight;
                 timeMarkerProps.infoValues = this.props.trackerInfoValues;
-                timeMarkerProps.timeFormat = this.props.trackerTimeFormat;
+                if (timeFormat != null) {
+                    timeMarkerProps.timeFormat = timeFormat;
+                }
             }
 
             if (this.props.utc) {
