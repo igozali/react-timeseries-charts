@@ -62,8 +62,13 @@ export default class EventHandler extends React.Component {
 
         e.preventDefault();
 
+        // HACK: Only Firefox at the moment uses e.deltaMode that is not
+        // WheelEvent.DOM_DELTA_PIXEL. So we're going to hack this on Firefox only.
+        // This will break when Chrome changes this behavior, but for now, it's good enough.
+        const deltaY = e.deltaMode === WheelEvent.DOM_DELTA_PIXEL ? e.deltaY : e.deltaY * 16;
+
         const SCALE_FACTOR = 0.001;
-        let scale = 1 + e.deltaY * SCALE_FACTOR;
+        let scale = 1 + deltaY * SCALE_FACTOR;
         if (scale > 3) {
             scale = 3;
         }
