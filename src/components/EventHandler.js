@@ -43,6 +43,25 @@ export default class EventHandler extends React.Component {
         this.handleContextMenu = this.handleContextMenu.bind(this);
     }
 
+    /** @type SVGGElement */
+    eventHandlerRef = null;
+
+    componentDidMount = () => {
+        const handlers = {
+            wheel: this.handleScrollWheel,
+            mousedown: this.handleMouseDown,
+            mousemove: this.handleMouseMove,
+            mouseout: this.handleMouseOut,
+            mouseup: this.handleMouseUp,
+            contextmenu: this.handleContextMenu
+        };
+
+        Object.keys(handlers).forEach(type => {
+            const handlerFunc = handlers[type];
+            this.eventHandlerRef.addEventListener(type, handlerFunc, { passive: false });
+        });
+    };
+
     // get the event mouse position relative to the event rect
     getOffsetMousePosition(e) {
         const offset = getElementOffset(this.eventRect);
@@ -293,16 +312,14 @@ export default class EventHandler extends React.Component {
 
     render() {
         const cursor = this.state.isPanning ? "-webkit-grabbing" : "default";
-        const handlers = {
-            onWheel: this.handleScrollWheel,
-            onMouseDown: this.handleMouseDown,
-            onMouseMove: this.handleMouseMove,
-            onMouseOut: this.handleMouseOut,
-            onMouseUp: this.handleMouseUp,
-            onContextMenu: this.handleContextMenu
-        };
-        return (
-            <g pointerEvents="all" {...handlers}>
+
+        const elem = (
+            <g
+                pointerEvents="all"
+                ref={c => {
+                    this.eventHandlerRef = c;
+                }}
+            >
                 <rect
                     key="handler-hit-rect"
                     ref={c => {
@@ -326,6 +343,8 @@ export default class EventHandler extends React.Component {
                 )}
             </g>
         );
+
+        return elem;
     }
 }
 
