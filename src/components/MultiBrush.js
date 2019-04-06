@@ -52,7 +52,11 @@ export default class MultiBrush extends React.Component {
         const begin = +this.props.timeRanges[brush_idx].begin();
         const end = +this.props.timeRanges[brush_idx].end();
 
-        document.addEventListener("mouseup", this.handleMouseUp);
+        if (window.PointerEvent) {
+            document.addEventListener("pointerup", this.handleMouseUp);
+        } else {
+            document.addEventListener("mouseup", this.handleMouseUp);
+        }
 
         this.setState({
             isBrushing: true,
@@ -72,7 +76,11 @@ export default class MultiBrush extends React.Component {
             const x = e.pageX - offset.left;
             const t = this.props.timeScale.invert(x).getTime();
 
-            document.addEventListener("mouseup", this.handleMouseUp);
+            if (window.PointerEvent) {
+                document.addEventListener("pointerup", this.handleMouseUp);
+            } else {
+                document.addEventListener("mouseup", this.handleMouseUp);
+            }
 
             const drawingPosition = this.props.allowFreeDrawing
                 ? this.props.timeRanges.length
@@ -110,8 +118,13 @@ export default class MultiBrush extends React.Component {
         const begin = this.props.timeRanges[brushIndex].begin().getTime();
         const end = this.props.timeRanges[brushIndex].end().getTime();
 
-        document.addEventListener("mouseover", this.handleMouseMove);
-        document.addEventListener("mouseup", this.handleMouseUp);
+        if (window.PointerEvent) {
+            document.addEventListener("pointerover", this.handleMouseMove);
+            document.addEventListener("pointerup", this.handleMouseUp);
+        } else {
+            document.addEventListener("mouseover", this.handleMouseMove);
+            document.addEventListener("mouseup", this.handleMouseUp);
+        }
 
         this.setState({
             isBrushing: true,
@@ -126,8 +139,13 @@ export default class MultiBrush extends React.Component {
     handleMouseUp(e) {
         e.preventDefault();
 
-        document.removeEventListener("mouseover", this.handleMouseMove);
-        document.removeEventListener("mouseup", this.handleMouseUp);
+        if (window.PointerEvent) {
+            document.removeEventListener("pointerover", this.handleMouseMove);
+            document.removeEventListener("pointerup", this.handleMouseUp);
+        } else {
+            document.removeEventListener("mouseover", this.handleMouseMove);
+            document.removeEventListener("mouseup", this.handleMouseUp);
+        }
 
         const brushing_is = this.state.brushIndex;
         this.setState(
