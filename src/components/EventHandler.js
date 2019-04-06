@@ -154,8 +154,8 @@ export default class EventHandler extends React.Component {
 
         e.preventDefault();
 
-        document.addEventListener("mouseover", this.handleMouseMove);
-        document.addEventListener("mouseup", this.handleMouseUp);
+        document.addEventListener("pointerover", this.handleMouseMove);
+        document.addEventListener("pointerup", this.handleMouseUp);
 
         if (this.props.enableDragZoom) {
             const offsetxy = this.getOffsetMousePosition(e);
@@ -192,8 +192,8 @@ export default class EventHandler extends React.Component {
 
         e.stopPropagation();
 
-        document.removeEventListener("mouseover", this.handleMouseMove);
-        document.removeEventListener("mouseup", this.handleMouseUp);
+        document.removeEventListener("pointerover", this.handleMouseMove);
+        document.removeEventListener("pointerup", this.handleMouseUp);
 
         const offsetxy = this.getOffsetMousePosition(e);
 
