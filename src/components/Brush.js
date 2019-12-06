@@ -310,9 +310,9 @@ export default class Brush extends React.Component {
     }
 
     renderHandles() {
-        const { timeRange, timeScale, height } = this.props;
+        const { timeRange, timeScale, height, disableResize } = this.props;
 
-        if (!timeRange) {
+        if (!timeRange || disableResize) {
             return <g />;
         }
 
@@ -402,6 +402,13 @@ Brush.propTypes = {
     minWidth: PropTypes.number,
 
     handleSize: PropTypes.number,
+
+    /**
+     * If true, disables resizing the brush by dragging the left/right end
+     * (handles) of the brush.
+     */
+    disableResize: PropTypes.bool,
+
     allowSelectionClear: PropTypes.bool,
     /**
      * A callback which will be called if the brush range is changed by
@@ -429,5 +436,6 @@ Brush.propTypes = {
 Brush.defaultProps = {
     handleSize: 6,
     minWidth: 1,
+    disableResize: false,
     allowSelectionClear: false
 };
