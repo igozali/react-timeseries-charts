@@ -97,19 +97,25 @@ export default class LabelAxis extends React.Component {
     render() {
         const valueWidth = this.props.valWidth;
         const rectWidth = this.props.width - valueWidth;
+        // Will overwrite labelYPos below if user specifies it.
+        const userLabelYPos = this.props.labelYPos;
 
         const style = this.mergeStyles(this.props.style);
         const { axisStyle, labelStyle, valueStyle } = style;
 
         let valueList = null;
         let labelYPos;
+
         if (this.props.values) {
-            labelYPos = Math.max(parseInt(this.props.height / 4, 10), 10);
+            labelYPos =
+                userLabelYPos != null
+                    ? userLabelYPos
+                    : this.propMath.max(parseInt(this.props.height / 4, 10), 10);
             valueList = (
                 <ValueList style={valueStyle} values={this.props.values} width={rectWidth} />
             );
         } else {
-            labelYPos = parseInt(this.props.height / 2, 10);
+            labelYPos = userLabelYPos != null ? userLabelYPos : parseInt(this.props.height / 2, 10);
         }
 
         return (
@@ -137,6 +143,11 @@ LabelAxis.propTypes = {
      * The label to show as the axis.
      */
     label: PropTypes.string.isRequired,
+
+    /**
+     * Forces the y-position of the label to be the specified value.
+     */
+    labelYPos: PropTypes.number,
 
     /**
      * Show or hide the max/min values that appear alongside the label
@@ -203,6 +214,7 @@ LabelAxis.propTypes = {
 };
 
 LabelAxis.defaultProps = {
+    labelYPos: null,
     hideScale: false,
     values: [],
     valWidth: 40,
