@@ -349,20 +349,31 @@ export default class YAxis extends React.Component {
             .remove();
 
         // Add the new axis
-        this.axis = select(ReactDOM.findDOMNode(this))
+        const g = select(ReactDOM.findDOMNode(this))
             .append("g")
             .attr("transform", `translate(${x},0)`)
             .attr("class", "yaxis")
             .styles(valueStyle)
-            .call(axisGenerator.tickSize(tickSize))
-            .append("text")
-            .text(label || this.props.label)
-            .styles(labelStyle)
-            .attr("transform", "rotate(-90)")
-            .attr("class", "yaxislabel")
-            .attr("y", labelOffset)
-            .attr("dy", ".71em")
-            .attr("text-anchor", "end");
+            .call(axisGenerator.tickSize(tickSize));
+
+        if (this.props.useHorizontalLabel) {
+            g.append("text")
+                .text(label || this.props.label)
+                .styles(labelStyle)
+                .attr("y", labelOffset)
+                .attr("dy", ".71em")
+                .attr("dx", `-${width}px`)
+                .attr("text-anchor", "start");
+        } else {
+            g.append("text")
+                .text(label || this.props.label)
+                .styles(labelStyle)
+                .attr("transform", "rotate(-90)")
+                .attr("class", "yaxislabel")
+                .attr("y", labelOffset)
+                .attr("dy", ".71em")
+                .attr("text-anchor", "end");
+        }
 
         this.postSelect(style, hideAxisLine, height);
     }
@@ -435,6 +446,7 @@ YAxis.defaultProps = {
     absolute: false, // Display scale always positive
     format: ".2s", // Format string for d3.format
     labelOffset: 0, // Offset the label position
+    useHorizontalLabel: false,
     transition: 100, // Axis transition time
     width: 80,
     style: defaultStyle
@@ -529,6 +541,11 @@ YAxis.propTypes = {
      * negative.
      */
     labelOffset: PropTypes.number,
+
+    /**
+     * If true, print the label horizontally.
+     */
+    useHorizontalLabel: PropTypes.bool,
 
     /**
      * If a string, the d3.format for the axis labels (e.g. `format=\"$,.2f\"`).
