@@ -290,8 +290,8 @@ export default class Brush extends React.Component {
             const [x, y] = [timeScale(begin), 0];
             const endPos = timeScale(end);
             let width = endPos - x;
-            if (width < 1) {
-                width = 1;
+            if (width < this.props.minWidth) {
+                width = this.props.minWidth;
             }
 
             const bounds = { x, y, width, height };
@@ -396,6 +396,11 @@ Brush.propTypes = {
     /**
      * The size of the invisible side handles. Defaults to 6 pixels.
      */
+    /**
+     * The minimum width of the brush.
+     */
+    minWidth: PropTypes.number,
+
     handleSize: PropTypes.number,
     allowSelectionClear: PropTypes.bool,
     /**
@@ -423,5 +428,6 @@ Brush.propTypes = {
 
 Brush.defaultProps = {
     handleSize: 6,
+    minWidth: 1,
     allowSelectionClear: false
 };
